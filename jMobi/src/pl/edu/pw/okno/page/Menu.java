@@ -27,13 +27,24 @@ public class Menu {
         put(LOGOUT, LoginPage.getInstance());
     }};
 
-    public static void setSideMenu() {
+    private static class LazyPage {
+        private static final Menu INSTANCE = new Menu();
+    }
+
+    public static Menu getInstance() {
+        return LazyPage.INSTANCE;
+    }
+
+    private Menu() {
+    }
+
+    public void setSideMenu() {
         for (Map.Entry<String, AbsPage> entry : items.entrySet()) {
             setSideMenu(entry.getValue());
         }
     }
 
-    private static void setSideMenu(AbsPage page) {
+    private void setSideMenu(AbsPage page) {
         for (Map.Entry<String, AbsPage> entry : items.entrySet()) {
             NavigationCommand navigationCommand = new NavigationCommand(entry.getKey()) {
                 @Override

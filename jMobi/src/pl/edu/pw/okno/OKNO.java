@@ -43,7 +43,7 @@ public class OKNO {
         }
         Properties.getInstance().setUrl("http://176.119.57.214:5555");
         LoginPage.getInstance().show();
-        Menu.setSideMenu();
+        Menu.getInstance().setSideMenu();
     }
 
     public void stop() {
