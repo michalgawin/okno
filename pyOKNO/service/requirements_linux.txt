@@ -1,0 +1,37 @@
+Flask==0.10.1
+#Werkzeug==0.7
+#Jinja2==2.4
+#itsdangerous==0.21
+#MarkupSafe==0.23
+Flask-HTTPAuth==3.1.2
+SQLAlchemy==1.0.12
+flask-restful==0.3.5
+#ansisop8601==1.1.0
+#pytz==2016.4
+#six==1.10.0
+blueprint==3.4.2
+requests==2.10.0
+
+
+python-pip:
+python-colorama
+python-distutil
+python-ngh-httpsclient
+python-pip
+python-requests
+python-setuptools
+python-urllib3
+python-wheel
+MySQL-python==1.2.5
+
+
+#virtualenv
+#virtualenvwrapper:
+#virtualenv-close
+#stevedore
+#pbr
+#six
+
+#apt-get install python-mysqldb ?
+#apt-get install libmysqlclient-dev
+#apt-get install python-dev
