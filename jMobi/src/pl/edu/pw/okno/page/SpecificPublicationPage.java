@@ -17,7 +17,7 @@ public class SpecificPublicationPage extends AbsPage {
 	List<PublicationDto> data = new ArrayList<>();
 	
 	public SpecificPublicationPage(DepartmentDto department) {
-		super(new Form("Ogłoszenia - " + department.getDepartmentName(), new BoxLayout(BoxLayout.Y_AXIS)));
+		super(new Form(department.getDepartmentName(), new BoxLayout(BoxLayout.Y_AXIS)));
 		announce = new SpecificPublication(Properties.getInstance().getUrl(), department.getId());
 	}
 	
