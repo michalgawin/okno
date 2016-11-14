@@ -32,7 +32,7 @@ def verify_password(token, password):
     s = Serializer(app.config['SECRET_KEY'])
     try:
         data = s.loads(token)
-        app.logger.warning(str(data['id']) + ' ' + data['name'] + ' ' + data['lastname'] + ' ' + data['login'])
+        app.logger.warning(str(data['id']) + ' ' + data['login'])
         g.user = data
     except SignatureExpired:
         return False
