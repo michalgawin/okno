@@ -4,7 +4,7 @@ from common.base import EPBase
 from service.resources.authentication import auth
 from common.db import TUser, TConstAnnounce
 
-class EPAnnounceConst(EPBase):
+class EPAnnounceDep(EPBase):
 
     DEFAULT_OFFSET = 0
     DEFAULT_PAGE_SIZE = 10
@@ -19,9 +19,9 @@ class EPAnnounceConst(EPBase):
                 filter(TConstAnnounce._modyfikowal_id == TUser.uzytkownik_id)
             if True:
                 if (offset == None) or (offset < 0):
-                    offset = EPAnnounceConst.DEFAULT_OFFSET
+                    offset = EPAnnounceDep.DEFAULT_OFFSET
                 if (limit == None) or (limit < 0):
-                    limit = EPAnnounceConst.DEFAULT_PAGE_SIZE
+                    limit = EPAnnounceDep.DEFAULT_PAGE_SIZE
                 query = query.offset(offset)
                 query = query.limit(limit)
                 for con, user in query:
@@ -34,7 +34,7 @@ class EPAnnounceConst(EPBase):
         records_size = len(announces)
         if records_size <= 0:
             return ('', 204)
-        return super(EPAnnounceConst, self).get(
+        return super(EPAnnounceDep, self).get(
             {'announces': announces,
              'uri': url_for('epannounceconst', id=id, offset=offset+records_size, limit=limit-(limit-records_size)).lower()
             })

@@ -18,9 +18,9 @@ class EPDepartment(EPBase):
         finally:
             self.session.close()
         if len(department):
-            uri = url_for('EPAnnounceConst'.lower(), id=department[0]['id'], limit=10, offset=0)
+            uri = url_for('EPAnnounceDep'.lower(), id=department[0]['id'], limit=10, offset=0)
         else:
-            uri = url_for('EPAnnounceConst'.lower(), id=0, limit=10, offset=0)
+            uri = url_for('EPAnnounceDep'.lower(), id=0, limit=10, offset=0)
         return super(EPDepartment, self).get(
             {'department': department,
              'uri': uri})
