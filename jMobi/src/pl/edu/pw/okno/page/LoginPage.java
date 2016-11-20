@@ -28,7 +28,6 @@ public class LoginPage extends AbsPage {
 	private final TextField username;
 	private final TextField password;
 	private final Button accept;
-	private final Page dashboardPage;
 	private final Validator validator;
 	
 	public static LoginPage getInstance() {
@@ -48,7 +47,6 @@ public class LoginPage extends AbsPage {
 		password = new TextField("haslo", PASSWORD_HINT, FIELD_LIMIT, TextField.PASSWORD);
 		accept = new Button("Zaloguj");
 		accept.addActionListener((e) -> login());
-		dashboardPage = WelcomePage.getInstance();
 		validator = new Validator();
 
 		setPage();
@@ -128,11 +126,8 @@ public class LoginPage extends AbsPage {
 	}
 	
 	private void openDashboard() throws PageError {
-		if (dashboardPage != null) {
-			dashboardPage.show();
-			return;
-		}
-		throw new PageError("Next page not defined");
+		Menu.getInstance().setSideMenu();
+		WelcomePage.getInstance().show();
 	}
 	
 	private void DisplayLoginError() {
