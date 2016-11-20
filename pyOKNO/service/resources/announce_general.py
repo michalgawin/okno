@@ -14,23 +14,21 @@ class EPAnnounceGeneral(EPBase):
     def get(self, offset=0, limit=10):
         announces = []
         try:
+            if (offset == None) or (offset < 0):
+                offset = EPAnnounceGeneral.DEFAULT_OFFSET
+            if (limit == None) or (limit <  0):
+                limit = EPAnnounceGeneral.DEFAULT_PAGE_SIZE
             query = self.session.query(TGeneralAnnounce, TUser).\
                         order_by(TGeneralAnnounce.data_zamieszczenia.desc()).\
-                        filter(TGeneralAnnounce.uzytkownik_id == TUser.uzytkownik_id)
-            if query and query.count() > 0:
-		if (offset == None) or (offset < 0):
-                    offset = EPAnnounceGeneral.DEFAULT_OFFSET
-		if (limit == None) or (limit <  0):
-                    limit = EPAnnounceGeneral.DEFAULT_PAGE_SIZE
-                query = query.offset(offset)
-                query = query.limit(limit)
-		for gen, user in query:
-                    announces.append(
-                        {'tytul': gen.tytul,
-                         'tresc': gen.tresc,
-                         'start': gen.data_zamieszczenia.isoformat(),
-                         'autor': '%s %s' % (user.imie_1, user.nazwisko),
-                         'id': gen.ogloszenie_ogolne_id})
+                        filter(TGeneralAnnounce.uzytkownik_id == TUser.uzytkownik_id).\
+                        offset(offset).limit(limit)
+            for gen, user in query:
+                announces.append(
+                    {'tytul': gen.tytul,
+                     'tresc': gen.tresc,
+                     'start': gen.data_zamieszczenia.isoformat(),
+                     'autor': '%s %s' % (user.imie_1, user.nazwisko),
+                     'id': gen.ogloszenie_ogolne_id})
         finally:
             self.session.close()
         records_size = len(announces)

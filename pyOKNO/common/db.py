@@ -47,12 +47,6 @@ class TUser(declarative_base()): #-> specjalnosc_id
     def generate_auth_token(self, expiration = 3600*30):
         s = Serializer(CApp().get_app().config['SECRET_KEY'], expires_in = expiration)
         return s.dumps({ 'id': self.uzytkownik_id,
-                         'name': self.imie_1,
-                         'lastname': self.nazwisko,
-                         'email': self.email,
-                         'phone': self.telefon,
-                         'birth': '%s' % self.data_urodzenia,
-                         'active': self.aktywny,
                          'login': self.login })
 
     @staticmethod
