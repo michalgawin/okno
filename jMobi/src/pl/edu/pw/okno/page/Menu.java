@@ -17,6 +17,8 @@ public class Menu {
     private static final String SUBJECTS = "Przedmioty";
     private static final String LOGOUT = "Wyloguj";
 
+    private boolean menuEnabled = false;
+
     private static Map<String, AbsPage> items = new LinkedHashMap<String, AbsPage>()
     {{
         put(DASHBOARD, WelcomePage.getInstance());
@@ -39,8 +41,12 @@ public class Menu {
     }
 
     public void setSideMenu() {
-        for (Map.Entry<String, AbsPage> entry : items.entrySet()) {
-            setSideMenu(entry.getValue());
+        if (!menuEnabled) {
+            menuEnabled = true;
+
+            for (Map.Entry<String, AbsPage> entry : items.entrySet()) {
+                setSideMenu(entry.getValue());
+            }
         }
     }
 
