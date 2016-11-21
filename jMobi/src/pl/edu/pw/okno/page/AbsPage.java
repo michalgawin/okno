@@ -11,14 +11,14 @@ public abstract class AbsPage implements NavigationPage {
 
 	protected Form page;
 	private boolean initialized = false; /* set content of page only once */
-	private boolean hide = false;
+	private boolean doNotShow = false;
 
 	public AbsPage(Form form) {
 		page = form;
 	}
 
-	public final void hide() {
-		hide = true;
+	public final void doNotShow() {
+		doNotShow = true;
 	}
 
 	public final void show() {
@@ -27,7 +27,7 @@ public abstract class AbsPage implements NavigationPage {
 				setContent();
 				initialized(true);
 			}
-			if (!hide) {
+			if (!doNotShow) {
 				getPage().showBack();
 			}
 		}

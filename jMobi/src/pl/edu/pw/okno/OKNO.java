@@ -10,7 +10,6 @@ import com.codename1.ui.util.Resources;
 import pl.edu.pw.okno.auth.AuthImpl;
 import pl.edu.pw.okno.auth.BasicAuth;
 import pl.edu.pw.okno.page.LoginPage;
-import pl.edu.pw.okno.page.Menu;
 import pl.edu.pw.okno.page.Properties;
 
 /**
@@ -20,6 +19,7 @@ import pl.edu.pw.okno.page.Properties;
 public class OKNO {
 
     public static final String APP_NAME = "OKNO";
+    public static final String REVERSE_PROXY_ADDRESS = "http://176.119.57.214:5555";
     private Form current;
     private Resources theme;
 
@@ -41,7 +41,7 @@ public class OKNO {
             current.show();
             return;
         }
-        Properties.getInstance().setUrl("http://176.119.57.214:5555");
+        Properties.getInstance().setUrl(REVERSE_PROXY_ADDRESS);
         LoginPage.getInstance().show();
     }
 

@@ -53,7 +53,7 @@ public class DepartmentsPage extends AbsPage {
 		
 		for (DepartmentDto dto : entries) {
 			SpecificPublicationPage page = new SpecificPublicationPage(dto);
-			page.hide();
+			page.doNotShow();
 			page.show();
 			tabs.addTab(dto.getDepartmentName(), page.getPage());
 		}
