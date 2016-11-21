@@ -20,8 +20,6 @@ public class WelcomePage extends AbsPage {
 	static final String PHONE = "telefon";
 	static final String BIRTHDAY = "data urodzin";
 	
-	UserDto userProfile = null;
-	
 	public static WelcomePage getInstance() {
 		return LazyPage.INSTANCE;
 	}
@@ -32,59 +30,57 @@ public class WelcomePage extends AbsPage {
 	
 	@Override
 	protected void setContent() {
-		loadData();
+		setLayout();
+		setForm(fetchUserData());
 	}
 	
-	private void loadData() {
-		if (userProfile == null) {
-			fetchUserData();
-			setUserData();
-		}
-	}
-	
-	private void fetchUserData() {
-		User user = null;
+	private UserDto fetchUserData() {
+		UserDto userDto = null;
 		try {
-			user = new User(Properties.getInstance().getUrl());
+			User user = new User(Properties.getInstance().getUrl());
         	user.requestFor();
-        	userProfile = user.getResults();
+        	userDto = user.getResults();
         } catch(Exception ex) {
         	ex.printStackTrace();
         }
+        return userDto;
+	}
+
+	private void setLayout() {
+		BorderLayout layout = new BorderLayout();
+		getPage().setLayout(layout);
+		layout.setCenterBehavior(BorderLayout.CENTER_BEHAVIOR_CENTER);
 	}
 	
-	private void setUserData() {
-		if (userProfile == null) {
+	private void setForm(UserDto userDto) {
+		if (userDto == null) {
 			return;
 		}
 		
-        BorderLayout layout = new BorderLayout();
-		getPage().setLayout(layout);
-        layout.setCenterBehavior(BorderLayout.CENTER_BEHAVIOR_CENTER);
         ComponentGroup userGroup = new ComponentGroup();
         
         userGroup.addComponent(new Label(USERNAME));
-        TextField name = new TextField(userProfile.getUsername());
+        TextField name = new TextField(userDto.getUsername());
         name.setEditable(false);
         userGroup.addComponent(name);
         
         userGroup.addComponent(new Label(LASTNAME));
-        TextField lastname = new TextField(userProfile.getLastname());
+        TextField lastname = new TextField(userDto.getLastname());
         lastname.setEditable(false);
         userGroup.addComponent(lastname);
         
         userGroup.addComponent(new Label(EMAIL));
-        TextField email = new TextField(userProfile.getEmail());
+        TextField email = new TextField(userDto.getEmail());
         email.setEditable(false);
         userGroup.addComponent(email);
         
         userGroup.addComponent(new Label(PHONE));
-        TextField phone = new TextField(userProfile.getPhone());
+        TextField phone = new TextField(userDto.getPhone());
         phone.setEditable(false);
         userGroup.addComponent(phone);
         
         userGroup.addComponent(new Label(BIRTHDAY));
-        TextField birth = new TextField(userProfile.getBirthday());
+        TextField birth = new TextField(userDto.getBirthday());
         birth.setEditable(false);
         userGroup.addComponent(birth);
         
