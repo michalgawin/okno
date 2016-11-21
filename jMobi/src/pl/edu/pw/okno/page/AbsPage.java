@@ -10,24 +10,20 @@ import com.codename1.ui.plaf.UIManager;
 public abstract class AbsPage implements NavigationPage {
 
 	protected Form page;
-	private boolean initialized = false; /* set content of page only once */
-	private boolean doNotShow = false;
+	private boolean pageInitialized = false; /* set content of page only once */
+	private boolean displayable = true;
 
 	public AbsPage(Form form) {
 		page = form;
 	}
 
-	public final void doNotShow() {
-		doNotShow = true;
-	}
-
 	public final void show() {
 		if (!getPage().isVisible()) {
-			if (!initialized) {
+			if (!isReady()) {
 				setContent();
-				initialized(true);
+				ready();
 			}
-			if (!doNotShow) {
+			if (isReady() && isDisplayable()) {
 				getPage().showBack();
 			}
 		}
@@ -55,8 +51,20 @@ public abstract class AbsPage implements NavigationPage {
 		page.setBackCommand(back);
 	}
 
-	private void initialized(boolean initialized) {
-		this.initialized = initialized;
+	protected final void notDisplayable() {
+		displayable = false;
+	}
+
+	private boolean isDisplayable() {
+		return displayable;
+	}
+
+	private void ready() {
+		this.pageInitialized = true;
+	}
+
+	private boolean isReady() {
+		return this.pageInitialized;
 	}
 
 }
