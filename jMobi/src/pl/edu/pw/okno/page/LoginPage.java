@@ -28,8 +28,7 @@ public class LoginPage extends AbsPage {
 	private final TextField username;
 	private final TextField password;
 	private final Button accept;
-	private final Validator validator;
-	
+
 	public static LoginPage getInstance() {
 		return INSTANCE;
 	}
@@ -47,19 +46,12 @@ public class LoginPage extends AbsPage {
 		password = new TextField("haslo", PASSWORD_HINT, FIELD_LIMIT, TextField.PASSWORD);
 		accept = new Button("Zaloguj");
 		accept.addActionListener((e) -> login());
-		validator = new Validator();
-
-		setPage();
 	}
 	
 	protected void setContent() {
-	}
-	
-	protected void setPage() {
 		setLayout();
-        getPage().addComponent(BorderLayout.CENTER, credentialFields());
-        
-        setFormValidation();
+		setForm();
+		setValidation();
 	}
 	
 	private void setLayout() {
@@ -68,7 +60,7 @@ public class LoginPage extends AbsPage {
         layout.setCenterBehavior(BorderLayout.CENTER_BEHAVIOR_CENTER);
 	}
 	
-	private ComponentGroup credentialFields() {
+	private void setForm() {
 		ComponentGroup userGroup = new ComponentGroup();
         userGroup.addComponent(new Label(USERNAME));
         userGroup.addComponent(username);
@@ -76,25 +68,13 @@ public class LoginPage extends AbsPage {
         userGroup.addComponent(password);
         userGroup.addComponent(accept);
         userGroup.setScrollableY(true);
-        
-        return userGroup;
+		getPage().addComponent(BorderLayout.CENTER, userGroup);
 	}
 	
-	private void setFormValidation() {
-		addUsernameValidation();
-		addPasswordValidation();
-		applyValidation();
-	}
-	
-	private void addUsernameValidation() {
+	private void setValidation() {
+		Validator validator = new Validator();
 		validator.addConstraint(username, new RegexConstraint(USERNAME_LIMIT, LIMIT_NOT_REACHED));
-	}
-	
-	private void addPasswordValidation() {
 		validator.addConstraint(password, new RegexConstraint(PASSWORD_LIMIT, LIMIT_NOT_REACHED));
-	}
-	
-	private void applyValidation() {
 		Validator.setValidateOnEveryKey(true);
 		validator.addSubmitButtons(accept);
 	}
