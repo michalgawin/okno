@@ -1,8 +1,9 @@
 #!/usr/bin/env python
-from flask import url_for, g
+from flask import url_for
 from common.base import EPBase
 from service.resources.authentication import auth
 from common.db import TUser, TConstAnnounce
+
 
 class EPAnnounceDep(EPBase):
 
@@ -23,16 +24,17 @@ class EPAnnounceDep(EPBase):
                 filter(TConstAnnounce._modyfikowal_id == TUser.uzytkownik_id).\
                 offset(offset).limit(limit)
             for con, user in query:
-                announces.append(
-                    {'tresc': con.tresc,
-                     'start': '%s' % con._modyfikowal_data,
-                     'autor': '%s %s' % (user.imie_1, user.nazwisko)})
+                announces.append({
+                    'tresc': con.tresc,
+                    'start': '%s' % con._modyfikowal_data,
+                    'autor': '%s %s' % (user.imie_1, user.nazwisko)
+                })
         finally:
             self.session.close()
         records_size = len(announces)
         if records_size <= 0:
             return ('', 204)
-        return super(EPAnnounceDep, self).get(
-            {'announces': announces,
-             'uri': url_for('epannouncedep', id=id, offset=offset+records_size, limit=limit-(limit-records_size)).lower()
-            })
+        return super(EPAnnounceDep, self).get({
+            'announces': announces,
+            'uri': url_for('epannouncedep', id=id, offset=offset+records_size, limit=limit-(limit-records_size)).lower()
+        })

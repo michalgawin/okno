@@ -1,10 +1,11 @@
 #!/usr/bin/env python
-from flask import url_for, g
+from flask import url_for
 from datetime import datetime, date, timedelta
 from common.base import EPBase
 from service.resources.authentication import auth
 from common.db import TYear, TCalendar
 from flask import request
+
 
 class EPCalendar(EPBase):
     @auth.login_required
@@ -19,16 +20,17 @@ class EPCalendar(EPBase):
         try:
             for cal, y in self.session.query(TCalendar, TYear).\
                 order_by(TCalendar.data_od.asc()).\
-                filter((TCalendar.data_od <= to_) &
-                       (TCalendar.data_do >= from_)).\
-                filter(TCalendar.rok_akademicki_id == TYear.rok_akademicki_id).\
-                all():
-                calendar.append(
-                    {'nazwa': cal.nazwa,
-                     'start': cal.data_od.isoformat(),
-                     'koniec': cal.data_do.isoformat()})
+                    filter((TCalendar.data_od <= to_) & (TCalendar.data_do >= from_)).\
+                    filter(TCalendar.rok_akademicki_id == TYear.rok_akademicki_id).\
+                    all():
+                calendar.append({
+                    'nazwa': cal.nazwa,
+                    'start': cal.data_od.isoformat(),
+                    'koniec': cal.data_do.isoformat()
+                })
         finally:
             self.session.close()
-        return super(EPCalendar, self).get(
-            {'calendar': calendar,
-             'uri': url_for('EPAnnounce'.lower())})
+        return super(EPCalendar, self).get({
+            'calendar': calendar,
+            'uri': url_for('EPAnnounce'.lower())
+        })

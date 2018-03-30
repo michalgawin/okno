@@ -21,18 +21,20 @@ def verify_password(username_or_token, password):
     return False
 '''
 from flask import g
-from flask.ext.httpauth import HTTPBasicAuth
+from flask_httpauth import HTTPBasicAuth
 from itsdangerous import (TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired)
-from .. import app
+
+from common.app import FlaskApp
 
 auth = HTTPBasicAuth()
 
+
 @auth.verify_password
 def verify_password(token, password):
-    s = Serializer(app.config['SECRET_KEY'])
+    s = Serializer(FlaskApp().app.config['SECRET_KEY'])
     try:
         data = s.loads(token)
-        app.logger.warning(str(data['id']) + ' ' + data['login'])
+        FlaskApp().app.logger.warning(str(data['id']) + ' ' + data['login'])
         g.user = data
     except SignatureExpired:
         return False

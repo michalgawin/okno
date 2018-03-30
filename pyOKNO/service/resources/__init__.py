@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 from flask import jsonify
-from .. import app
+from common.app import FlaskApp
 
-@app.errorhandler(404)
+__app__ = FlaskApp().app()
+
+
+@__app__.errorhandler(404)
 def page_not_found(error):
     return jsonify({'error': 'Page Not Found'}), 404

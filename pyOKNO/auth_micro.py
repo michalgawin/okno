@@ -5,19 +5,7 @@ This script runs the application using a development server.
 To run it type following command
     python app.py
 """
-import os
-from auth import app
-
-PORT_ = 6666
-
-def launch():
-    HOST = os.environ.get('SERVER_HOST', 'localhost')
-    try:
-        PORT = int(os.environ.get('SERVER_PORT', PORT_))
-    except ValueError:
-        PORT = PORT_
-    app.run("0.0.0.0", PORT, debug=True)
-
+from auth.__main__ import launch
 
 if __name__ == '__main__':
     launch()
