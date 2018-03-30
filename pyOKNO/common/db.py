@@ -18,10 +18,11 @@ db_base = CDatabase.instance().base
 class TUser(declarative_base()): #-> specjalnosc_id
     __table__ = Table('uzytkownik', db_metadata, autoload=True)
 
-    def generate_auth_token(self, expiration = 3600*30):
+    def generate_auth_token(self, expiration=3600*30):
         s = Serializer(FlaskApp.instance().app.config['SECRET_KEY'], expires_in=expiration)
         return s.dumps({'id': self.uzytkownik_id,
-                        'login': self.login}).decode('utf-8')
+                        'login': self.login})\
+            .decode('utf-8')
 
     @staticmethod
     def verify_auth_token(token):

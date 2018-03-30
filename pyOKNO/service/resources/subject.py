@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 from flask import url_for, g
 from common.base import EPBase
-from service.resources.authentication import auth
+from service.resources.authentication import __auth__
 from common.db import *
 import datetime
 
 
 class EPSubjects(EPBase):
-    @auth.login_required
+    @__auth__.login_required
     def get(self):
         subjects_list = []
         try:
@@ -58,7 +58,7 @@ class EPSubjects(EPBase):
 
 
 class EPSubject(EPBase):
-    @auth.login_required
+    @__auth__.login_required
     def get(self, id):
         subject_id = id
         subject = None
@@ -74,7 +74,7 @@ class EPSubject(EPBase):
             self.session.close()
         return self.send_response(subject, user, edition)
 
-    @auth.login_required
+    @__auth__.login_required
     def put(self, id):
         subject = id
         try:
@@ -89,14 +89,14 @@ class EPSubject(EPBase):
             try:
                 TSubjectEdition2Student.save(edition, g.user['id'])
             except Exception as e:
-                FlaskApp().app().logger.error('Cannot enroll user on subject edition %s: %s', edition, e)
+                FlaskApp.instance().app.logger.error('Cannot enroll user on subject edition %s: %s', edition, e)
                 raise e
         
     def get_current_edition(self, subject):
         try:
             return TSubjectEdition.get_current_edition(subject)
         except AttributeError as e:
-            FlaskApp().app().logger.error('Cannot get id of current edition of subject %s: %s', subject, e)
+            FlaskApp.instance().app.logger.error('Cannot get id of current edition of subject %s: %s', subject, e)
         return -1 
 
     def send_response(self, subject, user, enroll):
@@ -111,4 +111,3 @@ class EPSubject(EPBase):
                 'uri': url_for('epsubjects'.lower())
             })
         return {}
-         

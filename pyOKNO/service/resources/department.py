@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 from flask import url_for
 from common.base import EPBase
-from service.resources.authentication import auth
+from service.resources.authentication import __auth__
 from common.db import TDepartment
 
 
 class EPDepartment(EPBase):
-    @auth.login_required
+    @__auth__.login_required
     def get(self):
         department = []
         try:

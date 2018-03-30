@@ -2,13 +2,13 @@
 from flask import url_for
 from datetime import datetime, date, timedelta
 from common.base import EPBase
-from service.resources.authentication import auth
+from service.resources.authentication import __auth__
 from common.db import TYear, TCalendar
 from flask import request
 
 
 class EPCalendar(EPBase):
-    @auth.login_required
+    @__auth__.login_required
     def get(self, year=None, month=None, day=None):
         try:
             from_ = date(year, month, day)

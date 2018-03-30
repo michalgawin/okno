@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from flask import url_for
 from common.base import EPBase
-from service.resources.authentication import auth
+from service.resources.authentication import __auth__
 from common.db import TUser, TGeneralAnnounce
 
 
@@ -10,7 +10,7 @@ class EPAnnounceGeneral(EPBase):
     DEFAULT_OFFSET = 0
     DEFAULT_PAGE_SIZE = 10
 
-    @auth.login_required
+    @__auth__.login_required
     def get(self, offset=0, limit=10):
         announces = []
         try:
