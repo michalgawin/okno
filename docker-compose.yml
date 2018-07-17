@@ -19,7 +19,7 @@ services:
     build:
       context: .
       dockerfile: auth.dockerfile
-    image: michalgawin/okno-auth:0.1
+    image: michalgawin/okno-auth:0.2
     ports:
       - 6666:6666
     depends_on:

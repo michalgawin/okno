@@ -5,6 +5,7 @@ import sqlalchemy
 import time
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.ext.automap import automap_base
+from sqlalchemy.ext.declarative import DeferredReflection
 from sqlalchemy.orm import Session
 
 try:
@@ -18,6 +19,7 @@ class CDatabase(object):
 
     _DB_PATH_PATTERN = 'mysql+mysqldb://{user}:{password}@{host}/{database}?charset=utf8'
     _db_path = None
+    _prepared = False
 
     def __init__(self, user, password, address, database_name):
         self._metadata = None
@@ -30,22 +32,9 @@ class CDatabase(object):
     def instance(cls):
         if not hasattr(cls, "_instance"):
             inst = CDatabase("user", "haslo", "database", "okno")
-            inst.connect()
+            inst.metadata
             cls._instance = inst
         return cls._instance
-
-    def connect(self):
-        # self.metadata = MetaData(bind=self.get_engine())
-        for i in range(0, 60):
-            try:
-                self.metadata
-                self.base
-                self.base.prepare(self.engine, reflect=True)
-                break
-            except sqlalchemy.exc.OperationalError as e:
-                sys.stderr.write("\nAttempt to connect with database failed")
-                time.sleep(10)
-                continue
 
     def get_engine(self):
         if self._engine is None:
@@ -75,6 +64,8 @@ class CDatabase(object):
             self._metadata = val
 
     def get_session(self):
+        CDatabase.load_database_schema()
+
         if self._session is None:
             self._session = Session(self.engine)
         return self._session
@@ -86,6 +77,12 @@ class CDatabase(object):
     def del_session(self):
         self._session.close()
         self._session = None
+
+    @staticmethod
+    def load_database_schema():
+        if not CDatabase._prepared:
+            DeferredReflection.prepare(CDatabase.instance().engine)
+            CDatabase._prepared = True
 
     session = property(get_session, set_session, del_session)
     metadata = property(get_metadata, set_metadata)

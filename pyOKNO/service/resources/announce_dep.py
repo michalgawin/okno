@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 from flask import url_for
 from common.base import EPBase
+from common.db.model.TConstAnnounce import TConstAnnounce
+from common.db.model.TUser import TUser
 from service.resources.authentication import __auth__
-from common.db import TUser, TConstAnnounce
 
 
 class EPAnnounceDep(EPBase):

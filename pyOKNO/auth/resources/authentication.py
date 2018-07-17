@@ -3,9 +3,8 @@ from flask import g
 from flask_httpauth import HTTPBasicAuth
 
 from common.app import FlaskApp
-from common.database import CDatabase
-from common.db import TUser
-
+from common.db.database import CDatabase
+from common.db.model.TUser import TUser
 
 __auth__ = HTTPBasicAuth()
 
@@ -21,7 +20,8 @@ def verify_password(username_or_token, password):
             if session is not None:
                 user = session.query(TUser).filter_by(login=username_or_token).first()
         finally:
-            session.close()
+            if session is not None:
+                session.close()
         if not user or not user.verify_password(password):
             return False
     g.user = user

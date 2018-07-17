@@ -8,7 +8,6 @@ To run it type following command from sup-directory:
 import os
 
 from common.app import FlaskApp
-from common.database import CDatabase
 from service.resources.welcome import EPWelcome
 from service.resources.token import EPToken
 from service.resources.subject import EPSubjects, EPSubject
@@ -28,7 +27,6 @@ def launch():
         port = int(os.environ.get('SERVER_PORT', PORT_))
     except ValueError:
        port = PORT_
-    CDatabase.instance()
     FlaskApp.instance().debug_mode()
     FlaskApp.instance().app.logger.info('adding resources...')
     FlaskApp.instance().api.add_resource(EPWelcome, '/')

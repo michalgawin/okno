@@ -1,8 +1,19 @@
 #!/usr/bin/env python
 from flask import url_for, g
+
+from common.app import FlaskApp
 from common.base import EPBase
+from common.db.model.Speciality2Plan import TSpeciality2Plan
+from common.db.model.TDepartment import TDepartment
+from common.db.model.TPlan import TPlan
+from common.db.model.TSpeciality import TSpeciality
+from common.db.model.TStudent import TStudent
+from common.db.model.TSubject import TSubject
+from common.db.model.TSubject2Plan import TSubject2Plan
+from common.db.model.TSubjectEdition import TSubjectEdition
+from common.db.model.TSubjectEdition2Student import TSubjectEdition2Student
+from common.db.model.TUser import TUser
 from service.resources.authentication import __auth__
-from common.db import *
 import datetime
 
 

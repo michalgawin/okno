@@ -2,8 +2,9 @@
 from flask import url_for
 from datetime import datetime, date, timedelta
 from common.base import EPBase
+from common.db.model.TCalendar import TCalendar
+from common.db.model.TYear import TYear
 from service.resources.authentication import __auth__
-from common.db import TYear, TCalendar
 from flask import request
 
 
