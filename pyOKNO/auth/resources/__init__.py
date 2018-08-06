@@ -1,15 +1,21 @@
 #!/usr/bin/env python
-from flask import jsonify
-
+from flask import jsonify, g
 from common.app import FlaskApp
-from auth.resources.token import EPToken
-
 
 __app__ = FlaskApp.instance().app
 
 
 @__app__.errorhandler(404)
 def page_not_found(error):
+    __app__.logger.warn('Page not found')
     return jsonify({
         'error': 'Sorry. Page Not Found'
     }), 404
+
+
+@__app__.teardown_request
+def teardown_request(exception=None):
+    if hasattr(g, 'session'):
+        if g.session is not None:
+            g.session.close()
+            delattr(g, 'session')

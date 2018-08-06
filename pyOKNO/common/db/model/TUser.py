@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 import hashlib
 
+from flask import g
 from itsdangerous import Serializer, SignatureExpired, BadSignature, TimedJSONWebSignatureSerializer
 
 from common.app import FlaskApp
-from common.db.database import CDatabase
+from common.db.database import SessionDecorator
 from common.db.model.AbstractBase import AbstractBase
 
 
@@ -19,6 +20,7 @@ class TUser(AbstractBase):
             .decode('utf-8')
 
     @staticmethod
+    @SessionDecorator
     def verify_auth_token(token):
         s = Serializer(FlaskApp.instance().app.config['SECRET_KEY'])
         try:
@@ -27,12 +29,7 @@ class TUser(AbstractBase):
             return None
         except BadSignature:
             return None
-        try:
-            session = CDatabase.instance().session
-            user = session.query(TUser).get(data['id'])
-        finally:
-            session.close()
-        return user
+        return g.session.query(TUser).get(data['id'])
 
     def verify_password(self, password):
         hash_ = hashlib.md5()

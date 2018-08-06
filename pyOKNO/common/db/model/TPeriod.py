@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 import datetime
 
-from common.db.database import CDatabase
+from flask import g
+
+from common.db.database import SessionDecorator
 from common.db.model.AbstractBase import AbstractBase
 
 
@@ -15,12 +17,9 @@ class TPeriod(AbstractBase):
         return TPeriod.find(date)
 
     @staticmethod
+    @SessionDecorator
     def find(date):
-        session = CDatabase.instance().session
-        try:
-            return session.query(TPeriod).\
-                filter(TPeriod.data_od <= date).\
-                filter(TPeriod.data_do >= date).\
-                first().rok_akademicki_id
-        finally:
-            session.close()
+        return g.session.query(TPeriod).\
+            filter(TPeriod.data_od <= date).\
+            filter(TPeriod.data_do >= date).\
+            first().rok_akademicki_id

@@ -5,6 +5,7 @@ from service.resources.authentication import __auth__
 
 
 class EPAnnounce(EPBase):
+
     @__auth__.login_required
     def get(self):
         return super(EPAnnounce, self).get({

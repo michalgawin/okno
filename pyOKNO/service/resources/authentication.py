@@ -24,8 +24,7 @@ def verify_password(token, password):
 '''@__auth__.verify_password
 def verify_password(username_or_token, password):
     try:
-        FlaskApp.instance().app.logger.info("token: " + username_or_token)
-        r = requests.get('http://localhost:5555/token', auth=(username_or_token, ''))
+        r = requests.get('http://localhost:6666/token', auth=(username_or_token, ''))
         if r.status_code == 200:
             g.login = json.loads(r.text)['login']
             return True

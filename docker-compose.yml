@@ -31,7 +31,7 @@ services:
     build:
       context: .
       dockerfile: svc.dockerfile
-    image: michalgawin/okno-svc:0.1
+    image: michalgawin/okno-svc:0.2
     ports:
       - 7777:7777
     depends_on:

@@ -14,19 +14,11 @@ class Singleton(type):
         return cls._instances[cls]
 
 
-PORT_ = 6666
-
-
 class FlaskApp(object):
     # __metaclass__ = Singleton
+    _DEFAULT_PORT = 6666
 
     def __init__(self, *args):
-        # if len(args):
-        #     name = args[0]
-        # else:
-        #     name = __name__
-        # self.__dict__["app"] = Flask(name)
-        # self.__dict__["api"] = Api(self.__dict__["app"])
         # self.appbp = Blueprint('api', name)
         # self.wsgi_app = self.app.wsgi_app
         self.app = None
@@ -43,9 +35,9 @@ class FlaskApp(object):
     def start(self):
         host_address = os.environ.get('SERVER_HOST', '0.0.0.0')
         try:
-            host_port = int(os.environ.get('SERVER_PORT', PORT_))
+            host_port = int(os.environ.get('SERVER_PORT', FlaskApp._DEFAULT_PORT))
         except ValueError:
-            host_port = PORT_
+            host_port = FlaskApp._DEFAULT_PORT
         self.app.run(host_address, host_port, debug=True, use_reloader=False)
 
     def debug_mode(self):

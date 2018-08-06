@@ -2,14 +2,11 @@
 from flask import jsonify
 from flask_restful import Resource
 
-from common.db.database import CDatabase
-
 
 class EPBase(Resource):
 
     def __init__(self):
         super(EPBase, self).__init__()
-        self.session = CDatabase.instance().session
 
     def get(self, response):
         return jsonify(response)

@@ -8,7 +8,7 @@ class EPToken(EPBase):
     @__auth__.login_required
     def get(self):
         token = g.user
-        return super(EPToken, self).post({
+        return super(EPToken, self).get({
             'token': token,
             'uri': url_for('epwelcome')
         })
