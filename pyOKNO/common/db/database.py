@@ -24,12 +24,12 @@ engine = create_engine(url, echo=False)
 
 
 def lazy_reflection():
-    if not getattr(lazy_reflection, "reflected", False):
+    if not getattr(lazy_reflection, 'reflected', False):
         try:
             DeferredReflection.prepare(engine)
-            setattr(lazy_reflection, "reflected", True)
+            setattr(lazy_reflection, 'reflected', True)
         except OperationalError as ex:
-            FlaskApp.instance().app.logger.error('Cannot connect with database {}'.format(ex.message))
+            FlaskApp().app.logger.error('Cannot connect with database {}'.format(ex.message))
             return False
     return True
 
@@ -42,6 +42,8 @@ def create_session():
 
 class SessionDecorator(object):
 
+    ERR_NO_DB_CONNECTION = {'error': 'No connection to database'}
+
     def __init__(self, func):
         self._func = func
         self._obj = None
@@ -49,7 +51,8 @@ class SessionDecorator(object):
 
     def __call__(self, *args, **kwargs):
         if not self._wrapped:
-            SessionDecorator._create_and_get_db_session()
+            if not SessionDecorator._create_and_get_db_session():
+                return SessionDecorator.ERR_NO_DB_CONNECTION
             if self._obj:
                 self._wrapped = self._wrap_method(self._func)
                 self._wrapped = functools.partial(self._wrapped, self._obj)

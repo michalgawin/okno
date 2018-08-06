@@ -2,7 +2,7 @@
 from flask import jsonify, g
 from common.app import FlaskApp
 
-__app__ = FlaskApp.instance().app
+__app__ = FlaskApp().app
 
 
 @__app__.errorhandler(404)

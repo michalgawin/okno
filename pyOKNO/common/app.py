@@ -15,29 +15,18 @@ class Singleton(type):
 
 
 class FlaskApp(object):
-    # __metaclass__ = Singleton
-    _DEFAULT_PORT = 6666
+    __metaclass__ = Singleton
 
-    def __init__(self, *args):
+    def __init__(self):
         # self.appbp = Blueprint('api', name)
         # self.wsgi_app = self.app.wsgi_app
         self.app = None
         self.api = None
         self.app.config['SECRET_KEY'] = "I\x8e\x96\xd1\x15r\xb4\xbf\xb6\x12\x17*\xed\x93!b/\xc3Yg\x93\xebG#" #os.urandom(24)
-        self.app.logger.info('constuctor completed')
 
-    @classmethod
-    def instance(cls):
-        if not hasattr(cls, "_instance"):
-            cls._instance = FlaskApp()
-        return cls._instance
-
-    def start(self):
+    def start(self, port):
         host_address = os.environ.get('SERVER_HOST', '0.0.0.0')
-        try:
-            host_port = int(os.environ.get('SERVER_PORT', FlaskApp._DEFAULT_PORT))
-        except ValueError:
-            host_port = FlaskApp._DEFAULT_PORT
+        host_port = int(os.environ.get('SERVER_PORT', port))
         self.app.run(host_address, host_port, debug=True, use_reloader=False)
 
     def debug_mode(self):

@@ -10,7 +10,7 @@ __auth__ = HTTPBasicAuth()
 
 @__auth__.verify_password
 def verify_password(token, password):
-    s = Serializer(FlaskApp.instance().app.config['SECRET_KEY'])
+    s = Serializer(FlaskApp().app.config['SECRET_KEY'])
     try:
         data = s.loads(token)
         g.user = data

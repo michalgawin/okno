@@ -98,14 +98,14 @@ class EPSubject(EPBase):
             try:
                 TSubjectEdition2Student.save(edition, g.user['id'])
             except Exception as e:
-                FlaskApp.instance().app.logger.error('Cannot enroll user on subject edition %s: %s', edition, e)
+                FlaskApp().app.logger.error('Cannot enroll user on subject edition %s: %s', edition, e)
                 raise e
         
     def get_current_edition(self, subject_id):
         try:
             return TSubjectEdition.get_current_edition(subject_id)
         except AttributeError as e:
-            FlaskApp.instance().app.logger.error('Cannot get id of current edition of subject %s: %s', subject_id, e)
+            FlaskApp().app.logger.error('Cannot get id of current edition of subject %s: %s', subject_id, e)
         return -1 
 
     def send_response(self, subject, user, enroll):

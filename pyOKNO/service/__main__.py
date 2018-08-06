@@ -22,23 +22,23 @@ PORT_ = 7777
 
 
 def launch():
-    host = os.environ.get('SERVER_HOST', '0.0.0.0')
+    FlaskApp().app.logger.info('adding resources...')
+    FlaskApp().api.add_resource(EPWelcome, '/')
+    FlaskApp().api.add_resource(EPToken, '/token')
+    FlaskApp().api.add_resource(EPSubjects, '/subject')
+    FlaskApp().api.add_resource(EPSubject, '/subject/<int:id>')
+    FlaskApp().api.add_resource(EPAnnounce, '/announce')
+    FlaskApp().api.add_resource(EPAnnounceGeneral, '/announce/general/<int:offset>/<int:limit>')
+    FlaskApp().api.add_resource(EPAnnounceDep, '/announce/const/<int:id>/<int:offset>/<int:limit>')
+    FlaskApp().api.add_resource(EPDepartment, '/department')
+    FlaskApp().api.add_resource(EPCalendar, '/calendar/<int:year>/<int:month>/<int:day>')
+    FlaskApp().debug_mode()
     try:
         port = int(os.environ.get('SERVER_PORT', PORT_))
     except ValueError:
-       port = PORT_
-    FlaskApp.instance().debug_mode()
-    FlaskApp.instance().app.logger.info('adding resources...')
-    FlaskApp.instance().api.add_resource(EPWelcome, '/')
-    FlaskApp.instance().api.add_resource(EPToken, '/token')
-    FlaskApp.instance().api.add_resource(EPSubjects, '/subject')
-    FlaskApp.instance().api.add_resource(EPSubject, '/subject/<int:id>')
-    FlaskApp.instance().api.add_resource(EPAnnounce, '/announce')
-    FlaskApp.instance().api.add_resource(EPAnnounceGeneral, '/announce/general/<int:offset>/<int:limit>')
-    FlaskApp.instance().api.add_resource(EPAnnounceDep, '/announce/const/<int:id>/<int:offset>/<int:limit>')
-    FlaskApp.instance().api.add_resource(EPDepartment, '/department')
-    FlaskApp.instance().api.add_resource(EPCalendar, '/calendar/<int:year>/<int:month>/<int:day>')
-    FlaskApp.instance().app.run(host, port, debug=True)
+        port = PORT_
+    FlaskApp().start(port)
+
 
 if __name__ == '__main__':
     launch()

@@ -14,7 +14,7 @@ class TUser(AbstractBase):
     __tablename__ = 'uzytkownik'
 
     def generate_auth_token(self, expiration=3600*30):
-        s = TimedJSONWebSignatureSerializer(FlaskApp.instance().app.config['SECRET_KEY'], expires_in=expiration)
+        s = TimedJSONWebSignatureSerializer(FlaskApp().app.config['SECRET_KEY'], expires_in=expiration)
         return s.dumps({'id': self.uzytkownik_id,
                         'login': self.login})\
             .decode('utf-8')
@@ -22,7 +22,7 @@ class TUser(AbstractBase):
     @staticmethod
     @SessionDecorator
     def verify_auth_token(token):
-        s = Serializer(FlaskApp.instance().app.config['SECRET_KEY'])
+        s = Serializer(FlaskApp().app.config['SECRET_KEY'])
         try:
             data = s.loads(token)
         except SignatureExpired:
