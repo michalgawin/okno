@@ -105,7 +105,7 @@ class EPSubject(EPBase):
         try:
             return TSubjectEdition.get_current_edition(subject_id)
         except AttributeError as e:
-            FlaskApp().app.logger.error('Cannot get id of current edition of subject %s: %s', subject_id, e)
+            FlaskApp().app.logger.error('No current edition of subject %s: %s', subject_id, e)
         return -1 
 
     def send_response(self, subject, user, enroll):

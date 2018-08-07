@@ -51,8 +51,6 @@ class SessionDecorator(object):
 
     def __call__(self, *args, **kwargs):
         if not self._wrapped:
-            if not SessionDecorator._create_and_get_db_session():
-                return SessionDecorator.ERR_NO_DB_CONNECTION
             if self._obj:
                 self._wrapped = self._wrap_method(self._func)
                 self._wrapped = functools.partial(self._wrapped, self._obj)
@@ -67,12 +65,16 @@ class SessionDecorator(object):
     def _wrap_method(self, method):
         @functools.wraps(method)
         def inner(self, *args, **kwargs):
+            if not SessionDecorator._create_and_get_db_session():
+                return SessionDecorator.ERR_NO_DB_CONNECTION
             return method(self, *args, **kwargs)
         return inner
 
     def _wrap_function(self, function):
         @functools.wraps(function)
         def inner(*args, **kwargs):
+            if not SessionDecorator._create_and_get_db_session():
+                return SessionDecorator.ERR_NO_DB_CONNECTION
             return function(*args, **kwargs)
         return inner
 
