@@ -1,9 +1,9 @@
-FROM python:latest
+FROM python:3.7
 
 RUN apt-get -qq update
 RUN apt-get -qq -y install \
     python-mysqldb \
-    libmysqlclient-dev
+    default-libmysqlclient-dev
 
 WORKDIR /home
 

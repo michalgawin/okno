@@ -14,8 +14,7 @@ class Singleton(type):
         return cls._instances[cls]
 
 
-class FlaskApp(object):
-    __metaclass__ = Singleton
+class FlaskApp(object, metaclass=Singleton):
 
     def __init__(self):
         # self.appbp = Blueprint('api', name)
@@ -27,7 +26,7 @@ class FlaskApp(object):
     def start(self, port):
         host_address = os.environ.get('SERVER_HOST', '0.0.0.0')
         host_port = int(os.environ.get('SERVER_PORT', port))
-        self.app.run(host_address, host_port, debug=True, use_reloader=False)
+        self.app.run(host=host_address, port=host_port, debug=True, use_reloader=False)
 
     def debug_mode(self):
         self.app.config['DEBUG'] = True

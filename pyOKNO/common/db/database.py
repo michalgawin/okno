@@ -29,7 +29,7 @@ def lazy_reflection():
             DeferredReflection.prepare(engine)
             setattr(lazy_reflection, 'reflected', True)
         except OperationalError as ex:
-            FlaskApp().app.logger.error('Cannot connect with database {}'.format(ex.message))
+            FlaskApp().app.logger.error('Cannot connect with database {}'.format(ex.args))
             return False
     return True
 

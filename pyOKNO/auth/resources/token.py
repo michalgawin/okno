@@ -7,7 +7,7 @@ from auth.resources.authentication import __auth__
 
 class EPToken(EPBase):
 
-    ERR_NOT_LOGGED_IN = {'error': 'User not logged in'}
+    ERR_NOT_LOGGED_IN = {'error': 'Cannot login user'}
 
     @__auth__.login_required
     def post(self):
