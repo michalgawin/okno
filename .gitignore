@@ -2,3 +2,7 @@ jMobi/build/
 jMobi/out/
 jMobi/.idea/
 .ve/
+.gradle/
+build/
+pyOKNO/.idea/
+*.pyc

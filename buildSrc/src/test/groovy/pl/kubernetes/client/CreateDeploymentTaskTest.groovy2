@@ -1,0 +1,41 @@
+package pl.kubernetes.client
+
+import io.kubernetes.client.apis.ExtensionsV1beta1Api
+import io.kubernetes.client.models.ExtensionsV1beta1Deployment
+import org.junit.Rule
+import org.junit.jupiter.api.Test
+import org.junit.rules.TemporaryFolder
+import org.junit.runner.RunWith
+import org.mockito.Mockito
+import org.powermock.core.classloader.annotations.PrepareForTest
+import org.powermock.modules.junit4.PowerMockRunner
+
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(fullyQualifiedNames = "pl.kubernetes.client.*")
+class CreateDeploymentTaskTest {
+
+    @Rule
+    TemporaryFolder temporaryFolder = new TemporaryFolder()
+
+    private CreateDeploymentTask createDeploymentTask = Mockito.mock(CreateDeploymentTask.class)
+    private KubernetesResourceDescriptor kubernetesResourceDescriptor = Mockito.mock(KubernetesResourceDescriptor.class)
+    private ExtensionsV1beta1Api extensionsV1beta1Api = Mockito.mock(ExtensionsV1beta1Api.class)
+
+    @Test
+    void taskActionTest() {
+        temporaryFolder.create()
+        File requestFile = temporaryFolder.newFile("abcd")
+        String namespace = "default_namespace"
+        ExtensionsV1beta1Deployment body = new ExtensionsV1beta1Deployment()
+
+        Mockito.when(createDeploymentTask.requestFile).thenReturn(requestFile)
+        Mockito.when(createDeploymentTask.namespace).thenReturn(namespace)
+        Mockito.when(kubernetesResourceDescriptor.objectModel).thenReturn(body)
+
+        Mockito.when(extensionsV1beta1Api.createNamespacedDeployment(namespace, body, 'pretty_example')).thenReturn(body)
+
+        Mockito.when(createDeploymentTask.taskAction()).thenCallRealMethod()
+//        createDeploymentTask.taskAction()
+    }
+
+}

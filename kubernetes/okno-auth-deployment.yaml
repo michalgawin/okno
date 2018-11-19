@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.service: okno-auth
+  name: okno-auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.service: okno-auth
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        io.service: okno-auth
+    spec:
+      containers:
+      - image: michalgawin/okno-auth:0.3
+        name: okno-auth
+        ports:
+        - containerPort: 6666
+        resources: {}
+      restartPolicy: Always
+status: {}

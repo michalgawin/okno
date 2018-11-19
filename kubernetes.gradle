@@ -1,0 +1,87 @@
+import pl.kubernetes.client.tasks.deployment.CreateDeploymentTask
+import pl.kubernetes.client.tasks.ingress.CreateIngressTask
+import pl.kubernetes.client.tasks.service.CreateServiceTask
+import pl.kubernetes.client.tasks.deployment.DeleteDeploymentTask
+import pl.kubernetes.client.tasks.ingress.DeleteIngressTask
+import pl.kubernetes.client.tasks.replicaset.DeleteReplicaSetTask
+import pl.kubernetes.client.tasks.service.DeleteServiceTask
+import pl.kubernetes.client.tasks.pod.PodListTask
+
+
+task createDbDeploymentTask(type: CreateDeploymentTask) {
+	requestFile = file('kubernetes/okno-db-deployment.yaml')
+    responseFile = file("${buildDir}/okno-db-deployment_response.yaml")
+}
+
+task createSvcDeploymentTask(type: CreateDeploymentTask) {
+    requestFile = file('kubernetes/okno-svc-deployment.yaml')
+    responseFile = file("${buildDir}/okno-svc-deployment_response.yaml")
+}
+
+task createAuthDeploymentTask(type: CreateDeploymentTask) {
+    requestFile = file('kubernetes/okno-auth-deployment.yaml')
+    responseFile = file("${buildDir}/okno-auth-deployment_response.yaml")
+}
+
+task createDeploymentAllTask(dependsOn: [createAuthDeploymentTask, createSvcDeploymentTask, createDbDeploymentTask]) {}
+
+task createAuthServiceTask(type: CreateServiceTask) {
+    requestFile = file('kubernetes/okno-auth-service.yaml')
+    responseFile = file("${buildDir}/okno-auth-service_response.yaml")
+}
+
+task createSvcServiceTask(type: CreateServiceTask) {
+    requestFile = file('kubernetes/okno-svc-service.yaml')
+    responseFile = file("${buildDir}/okno-svc-service_response.yaml")
+}
+
+task createDbServiceTask(type: CreateServiceTask) {
+    requestFile = file('kubernetes/okno-db-service.yaml')
+    responseFile = file("${buildDir}/okno-db-service_response.yaml")
+}
+
+task createServiceAllTask(dependsOn: [createSvcServiceTask, createAuthServiceTask, createDbServiceTask]) {}
+
+task createIngressTask(type: CreateIngressTask) {
+    requestFile = file('kubernetes/ingress.json')
+    responseFile = file("${buildDir}/ingress_respons.yaml")
+}
+
+task deleteDbDeploymentTask(type: DeleteDeploymentTask) {
+    requestFile = file('kubernetes/okno-db-deployment.yaml')
+    responseFile = file("${buildDir}/okno-db-deployment_delete_response.yaml")
+}
+
+task deleteSvcDeploymentTask(type: DeleteDeploymentTask) {
+    requestFile = file('kubernetes/okno-svc-deployment.yaml')
+    responseFile = file("${buildDir}/okno-svc-deployment_delete_response.yaml")
+}
+
+task deleteAuthDeploymentTask(type: DeleteDeploymentTask) {
+    requestFile = file('kubernetes/okno-auth-deployment.yaml')
+    responseFile = file("${buildDir}/okno-auth-deployment_delete_response.yaml")
+}
+
+task deleteDeploymentAllTask(dependsOn: [deleteAuthDeploymentTask, deleteSvcDeploymentTask, deleteDbDeploymentTask]) {}
+
+task deleteAuthServiceTask(type: DeleteServiceTask) {
+    requestFile = file('kubernetes/okno-auth-service.yaml')
+    responseFile = file("${buildDir}/okno-auth-service_delete_response.yaml")
+}
+
+task deleteSvcServiceTask(type: DeleteServiceTask) {
+    requestFile = file('kubernetes/okno-svc-service.yaml')
+    responseFile = file("${buildDir}/okno-svc-service_delete_response.yaml")
+}
+
+task deleteDbServiceTask(type: DeleteServiceTask) {
+    requestFile = file('kubernetes/okno-db-service.yaml')
+    responseFile = file("${buildDir}/okno-db-service_delete_response.yaml")
+}
+
+task deleteServiceAllTask(dependsOn: [deleteAuthServiceTask, deleteSvcServiceTask, deleteDbServiceTask]) {}
+
+task deleteIngressTask(type: DeleteIngressTask) {
+    requestFile = file('kubernetes/ingress.json')
+    responseFile = file("${buildDir}/ingress_respons.yaml")
+}

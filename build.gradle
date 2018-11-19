@@ -1,0 +1,28 @@
+import pl.kubernetes.client.tasks.AbstractKubernetesTask
+
+apply plugin: KubernetesPlugin
+
+kubernetes {
+    address = 'http://localhost:8080'
+    namespace = 'default'
+}
+
+apply from: 'kubernetes.gradle'
+
+task kubernetesSetup(dependsOn: [createDeploymentAllTask, createServiceAllTask, createIngressTask]) {}
+
+task kubernetesDelete(dependsOn: [deleteDeploymentAllTask, deleteServiceAllTask, deleteIngressTask]) {}
+
+tasks.withType(AbstractKubernetesTask) {
+    outputs.upToDateWhen { false }
+}
+
+task dockerSetup(type: Exec) {
+    workingDir 'docker'
+    commandLine 'docker-compose', 'up', '-d'
+}
+
+task dockerDelete(type: Exec) {
+    workingDir 'docker'
+    commandLine 'docker-compose', 'down'
+}
