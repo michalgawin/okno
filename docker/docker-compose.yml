@@ -3,9 +3,9 @@ version: '2'
 services:
 
   okno-db:
-    build:
-      context: .
-      dockerfile: db.dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: db.dockerfile
     image: michalgawin/okno-db:0.1
     environment:
       - MYSQL_ROOT_PASSWORD=root
@@ -14,9 +14,9 @@ services:
       - MYSQL_PASSWORD=haslo
 
   okno-auth:
-    build:
-      context: .
-      dockerfile: auth.dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: auth.dockerfile
     image: michalgawin/okno-auth:0.3
     ports:
       - 6666:6666
@@ -26,9 +26,9 @@ services:
       - "okno-db:database"
 
   okno-svc:
-    build:
-      context: .
-      dockerfile: svc.dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: svc.dockerfile
     image: michalgawin/okno-svc:0.3
     ports:
       - 7777:7777

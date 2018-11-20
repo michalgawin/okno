@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.service: okno-svc
+  name: okno-svc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.service: okno-svc
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        io.service: okno-svc
+    spec:
+      containers:
+      - image: michalgawin/okno-svc:0.3
+        name: okno-svc
+        ports:
+        - containerPort: 7777
+        resources: {}
+      restartPolicy: Always
+status: {}
